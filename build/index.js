@@ -1,16 +1,8 @@
 import express from 'express';
-import https from 'https';
-import fs from 'fs';
 import cors from 'cors';
 import fetch from 'node-fetch';
 const app = express();
-const key = fs.readFileSync('./../../certs/tutorial.key', 'utf-8');
-const cert = fs.readFileSync('./../../certs/tutorial.crt', 'utf-8');
-const PORT = 5000;
-const parameters = {
-    key: key,
-    cert: cert
-};
+const PORT = 3000;
 app.use(express.json());
 app.use(cors());
 app.options('*', cors()); // include before other routes
@@ -36,21 +28,9 @@ app.get('/nasaAPI', cors(corsOptions), (_req, res) => {
         });
     }
 });
-app.get('/ping', (_req, res) => {
-    console.log('someone pinged here');
-    res.send('pong');
+app.get('*', (req, res) => {
+    res.send(`Hello World from ${req.path} !`);
 });
-app.get('/', (_req, res) => {
-    console.log('someone pinged here');
-    res.send('pong');
-});
-const server = https.createServer(parameters, app);
-server.listen(PORT, () => {
-    console.log(`Server is listening at port ${PORT}`);
-});
-/*
 app.listen(PORT, () => {
-console.log(`Server running on port ${PORT}`);
+    console.log(`Example app listening on port ${PORT}`);
 });
-
-*/ 
