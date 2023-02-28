@@ -4,6 +4,7 @@ import fetch from 'node-fetch';
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 app.options('*', cors()); // include before other routes
 
 const corsOptions = {
@@ -15,7 +16,7 @@ const PORT = 5000;
 
 app.get('/nasaAPI', cors(corsOptions), (_req, res) => {
     if(_req.query.url) {
-        const urlNasaAPI = decodeURIComponent(_req.query.url.toString() );
+        const urlNasaAPI = decodeURIComponent(_req.query.url as string );
 
         fetch(urlNasaAPI)
         .then((fetchRes) => {
